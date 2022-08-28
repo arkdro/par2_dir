@@ -25,15 +25,30 @@
       (str/starts-with? dir sanitized) (subs dir sanitized_length)
       :else dir)))
 
+;; (defn delete_part2
+;;   [file to_delete]
+;;   (let [
+;;         starts_with_deleted (.startsWith (.toPath file) to_delete)
+;;         to_delete_path (java.nio.file.Paths/get (java.net.URI. (str "file://" to_delete)))
+;;         to_delete_number_of_parts (.getNameCount to_delete_path)
+;;         to_delete_index (dec to_delete_number_of_parts)
+;;         file_path_number_of_parts (.getNameCount (.toPath file))
+;;         last_part_index (dec file_path_number_of_parts)
+;;         shortened_file_path (.subpath (.toPath file) to_delete_index last_part_index)
+;;         ]
+;;     shortened_file_path
+;;     )
+;;   )
+
+(defn create_full_output_dir
+  [outdir shortened_input_dir]
+  (java.nio.file.Paths/get outdir (into-array [shortened_input_dir])))
+
 (defn build_new_output_dir
   [outdir to_delete file]
   (let [input_file_dir (get_input_file_directory file)
-        shortened_input_path (delete_part input_path to_delete)
-        shortened_input_dir (get_dir shortened_input_path)
-      ;  output_dir (create_full_output_dir)
-        ]
-    )
-  )
+        shortened_input_dir (delete_part input_file_dir to_delete)]
+    (create_full_output_dir outdir shortened_input_dir)))
 
 (defn get_input_files
   [indir]
