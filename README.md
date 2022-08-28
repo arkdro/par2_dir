@@ -17,9 +17,13 @@ from the original data file.
 
 # Example
 
-`par2_dir /usr/export/vol01/users/dept01 /mnt/home /usr/export/vol01/users`
+`par2_dir /usr/export/vol01/users/dept01 /mnt/home /usr/export/vol01/users -- par2 c -r5`
 
 It creates the output path that starts with the following: `/mnt/home/dept01`
+And it calls the command that is passed as the rest of arguments (in this case
+it's `par2 c -r5`) using the current link as the last parameter for this command.
+The whole command looks like this:
+`par2 c -r5 /mnt/home/dept01/some_file.dat`
 
 ## Usage
 
