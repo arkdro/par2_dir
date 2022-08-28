@@ -78,8 +78,7 @@
 
 (defn remove_link
   [link]
-  ;;(java.nio.file.Files/deleteIfExists link)
-  )
+  (java.nio.file.Files/deleteIfExists link))
 
 (defn process_one_file
   [outdir to_delete file var_arguments]
