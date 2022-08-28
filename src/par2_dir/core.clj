@@ -35,6 +35,7 @@
   [& args]
   (activate_trace)
   (let [opts (parse-opts args cli-options)
+        var_arguments (get opts :arguments)
         options (get opts :options)
         indir (get options :indir)
         outdir (get options :outdir)
@@ -44,4 +45,4 @@
     (cond
       help (println (get opts :summary))
       errors (println errors)
-      :default (par2-dir.process/process_input_dir indir outdir to_delete))))
+      :default (par2-dir.process/process_input_dir indir outdir to_delete var_arguments)))

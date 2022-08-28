@@ -1,5 +1,6 @@
 (ns par2-dir.process
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.java.shell]))
 
 (def root "/")
 
@@ -68,11 +69,10 @@
       (java.nio.file.Files/createSymbolicLink link (.toPath file) stub_attributes))))
 
 (defn call_par2
-  [link]
+  [link var_arguments]
   (let [link_string (.toString link)
-        ;result (clojure.java.shell/sh "par2" "create" "-r100" link_string)
-        result (clojure.java.shell/sh "ls" "-l" link_string)
-        ]
+        args (conj var_arguments link_string)
+        result (apply clojure.java.shell/sh args)]
     (println "exit code:" (:exit result))
     (println "output:\n" (:out result))))
 
@@ -82,21 +82,19 @@
   )
 
 (defn process_one_file
-  [outdir to_delete file]
+  [outdir to_delete file var_arguments]
   (let [new_output_dir (build_new_output_dir outdir to_delete file)
         link (create_link new_output_dir file)]
-    (call_par2 link)
-    (remove_link link)
-    )
-  )
+    (call_par2 link var_arguments)
+    (remove_link link)))
 
 (defn process_files
-  [outdir to_delete files]
+  [outdir to_delete files var_arguments]
   (dorun
    (for [file files]
-     (process_one_file outdir to_delete file))))
+     (process_one_file outdir to_delete file var_arguments))))
 
 (defn process_input_dir
-  [indir outdir to_delete]
+  [indir outdir to_delete var_arguments]
   (let [files (get_input_files indir)]
-    (process_files outdir to_delete files)))
+    (process_files outdir to_delete files var_arguments)))
