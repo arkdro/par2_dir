@@ -46,3 +46,4 @@
       help (println (get opts :summary))
       errors (println errors)
       :default (par2-dir.process/process_input_dir indir outdir to_delete var_arguments)))
+  (System/exit 0))
