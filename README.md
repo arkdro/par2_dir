@@ -14,10 +14,11 @@ from the original data file.
 - input dir
 - output dir
 - input dir part to delete. The rest is created in the output dir.
+- the rest of arguments constitues a command to execute.
 
 # Example
 
-`par2_dir /usr/export/vol01/users/dept01 /mnt/home /usr/export/vol01/users -- par2 c -r5`
+`par2_dir -i /usr/export/vol01/users/dept01 -o /mnt/home -d /usr/export/vol01/users -- par2 c -r5`
 
 It creates the output path that starts with the following: `/mnt/home/dept01`
 And it calls the command that is passed as the rest of arguments (in this case
