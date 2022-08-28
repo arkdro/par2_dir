@@ -53,21 +53,33 @@
   [dir filename]
   (java.nio.file.Paths/get (.toString dir) (into-array [filename])))
 
+(defn file_exists?
+  [file]
+  (.exists (clojure.java.io/as-file (.toString file))))
+
 (defn create_link
   [output_dir file]
   (let [filename (get_filename file)
         link (build_link_name output_dir filename)
         stub_attributes (make-array java.nio.file.attribute.FileAttribute 0)]
     (create_output_dir output_dir filename)
-    (java.nio.file.Files/createSymbolicLink link (.toPath file) stub_attributes)))
+    (if (file_exists? link)
+      link
+      (java.nio.file.Files/createSymbolicLink link (.toPath file) stub_attributes))))
 
 (defn call_par2
   [link]
-  )
+  (let [link_string (.toString link)
+        ;result (clojure.java.shell/sh "par2" "create" "-r100" link_string)
+        result (clojure.java.shell/sh "ls" "-l" link_string)
+        ]
+    (println "exit code:" (:exit result))
+    (println "output:\n" (:out result))))
 
 (defn remove_link
   [link]
-  (java.nio.file.Files/deleteIfExists link))
+  ;;(java.nio.file.Files/deleteIfExists link)
+  )
 
 (defn process_one_file
   [outdir to_delete file]
